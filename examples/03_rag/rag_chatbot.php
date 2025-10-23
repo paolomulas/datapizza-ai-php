@@ -1,12 +1,23 @@
 <?php
 /**
- * demo_rag_chatbot.php - Demo completa di RAG Chatbot
+ * 🍕 RAG Chatbot - The Complete Demo
  * 
- * Questa demo mostra un chatbot che:
- * 1. Ha una knowledge base (documenti caricati nel vector store)
- * 2. Può cercare informazioni rilevanti
- * 3. Può usare altri tools (calculator, datetime)
- * 4. Risponde usando RAG pattern
+ * This is where everything comes together.
+ * 
+ * You've learned:
+ * - How to call LLMs (Example 1)
+ * - How agents use tools (Example 2-4)
+ * - How to add external knowledge (Wikipedia)
+ * - How to maintain conversation memory
+ * 
+ * Now you're building a COMPLETE RAG SYSTEM:
+ * - A knowledge base stored as embeddings
+ * - Semantic search to find relevant information
+ * - An agent that retrieves + reasons + generates answers
+ * 
+ * This is production-ready AI architecture.
+ * This is how modern AI apps work.
+ * And you're running it on a 2011 Raspberry Pi. 🚀
  */
 
 require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
@@ -16,77 +27,82 @@ require_once __DIR__ . '/../datapizza/tools/calculator.php';
 require_once __DIR__ . '/../datapizza/tools/datetime_tool.php';
 require_once __DIR__ . '/../datapizza/tools/rag_search.php';
 
-// Carica variabili d'ambiente
+// Load environment variables
 $env = parse_ini_file(__DIR__ . '/../.env');
 foreach ($env as $key => $value) {
     putenv("$key=$value");
 }
 
 echo "╔══════════════════════════════════════════════════════╗\n";
-echo "║     🍕 DataPizza RAG Chatbot - Demo Completa       ║\n";
+echo "║     🍕 DataPizza RAG Chatbot - Complete Demo       ║\n";
 echo "╚══════════════════════════════════════════════════════╝\n\n";
 
 // ========================================
-// FASE 1: Inizializzazione componenti
+// PHASE 1: Component initialization
 // ========================================
-echo "📦 Fase 1: Inizializzazione componenti...\n";
+echo "📦 Phase 1: Initializing components...\n";
 
 $embedder = new OpenAIEmbedder();
 $vectorstore = new SimpleVectorStore(__DIR__ . '/../data/rag_demo.json');
-$vectorstore->clear_all(); // Pulisci per demo pulita
+$vectorstore->clear_all(); // Clean slate for demo
 
-echo "   ✓ Embedder inizializzato\n";
-echo "   ✓ Vector store inizializzato\n\n";
+echo "   ✓ Embedder initialized\n";
+echo "   ✓ Vector store initialized\n\n";
 
 // ========================================
-// FASE 2: Caricamento knowledge base
+// PHASE 2: Loading knowledge base
 // ========================================
-echo "📚 Fase 2: Caricamento knowledge base...\n";
+echo "📚 Phase 2: Loading knowledge base...\n";
 
+// This is your AI's "memory" - documents it can search through
 $knowledge_base = [
     [
-        'text' => 'DataPizza è un framework PHP per sviluppare applicazioni AI. Include clients per OpenAI e DeepSeek, supporto per embeddings, vector stores, tools e agents con pattern ReAct.',
+        'text' => 'DataPizza is a PHP framework for building AI applications. It includes clients for OpenAI and DeepSeek, support for embeddings, vector stores, tools, and agents with ReAct pattern.',
         'metadata' => ['source' => 'docs', 'topic' => 'overview']
     ],
     [
-        'text' => 'Il Raspberry Pi Model B Rev 2 ha 512 MB di RAM, CPU ARM1176 single-core ARMv6 a 700MHz, e fu rilasciato nel 2011. È ideale per progetti educativi.',
+        'text' => 'The Raspberry Pi Model B Rev 2 has 512 MB RAM, ARM1176 single-core ARMv6 CPU at 700MHz, and was released in 2011. It is ideal for educational projects.',
         'metadata' => ['source' => 'docs', 'topic' => 'hardware']
     ],
     [
-        'text' => 'Il pattern ReAct (Reason + Act) permette agli AI agents di alternare tra ragionamento (Thought) e azione (Action con tools). Dopo ogni azione, l\'agent riceve un\'Observation e decide se continuare o fornire la Final Answer.',
+        'text' => 'The ReAct pattern (Reason + Act) allows AI agents to alternate between reasoning (Thought) and action (Action with tools). After each action, the agent receives an Observation and decides whether to continue or provide the Final Answer.',
         'metadata' => ['source' => 'docs', 'topic' => 'agents']
     ],
     [
-        'text' => 'OpenAI text-embedding-3-small produce vettori di 1536 dimensioni e costa $0.02 per 1 milione di token. È ottimo per RAG applications.',
+        'text' => 'OpenAI text-embedding-3-small produces 1536-dimensional vectors and costs $0.02 per 1 million tokens. It is excellent for RAG applications.',
         'metadata' => ['source' => 'docs', 'topic' => 'embeddings']
     ],
     [
-        'text' => 'Il Simple Vector Store salva embeddings in formato JSON sul filesystem. È leggero (funziona con 50 MB RAM) e perfetto per prototipi o hardware limitato come Raspberry Pi vintage.',
+        'text' => 'The Simple Vector Store saves embeddings in JSON format on the filesystem. It is lightweight (works with 50 MB RAM) and perfect for prototypes or limited hardware like vintage Raspberry Pi.',
         'metadata' => ['source' => 'docs', 'topic' => 'vectorstores']
     ],
     [
-        'text' => 'I tools in DataPizza estendono le capacità degli agents. Calculator esegue calcoli, DateTime manipola date, FileReader legge file, e RAGSearch cerca nella knowledge base.',
+        'text' => 'Tools in DataPizza extend agent capabilities. Calculator performs calculations, DateTime manipulates dates, FileReader reads files, and RAGSearch searches the knowledge base.',
         'metadata' => ['source' => 'docs', 'topic' => 'tools']
     ]
 ];
 
-echo "   Caricamento " . count($knowledge_base) . " documenti...\n";
+echo "   Loading " . count($knowledge_base) . " documents...\n";
 
+// Convert each document to embeddings and store them
 foreach ($knowledge_base as $doc) {
+    // Step 1: Convert text to vector (embedding)
     $embedding = $embedder->embed($doc['text']);
+    // Step 2: Store vector + text + metadata
     $vectorstore->add_document($doc['text'], $embedding, $doc['metadata']);
-    echo "   ✓ Caricato: " . substr($doc['text'], 0, 50) . "...\n";
+    echo "   ✓ Loaded: " . substr($doc['text'], 0, 50) . "...\n";
 }
 
-echo "   ✓ Knowledge base caricata (" . $vectorstore->count() . " documenti)\n\n";
+echo "   ✓ Knowledge base loaded (" . $vectorstore->count() . " documents)\n\n";
 
 // ========================================
-// FASE 3: Creazione Agent RAG
+// PHASE 3: Creating RAG Agent
 // ========================================
-echo "🤖 Fase 3: Creazione RAG Agent...\n";
+echo "🤖 Phase 3: Creating RAG Agent...\n";
 
+// Equip the agent with tools - including RAG search!
 $tools = [
-    new RAGSearch($vectorstore, $embedder),  // Tool principale per RAG
+    new RAGSearch($vectorstore, $embedder),  // 🔍 Main tool for RAG
     new Calculator(),
     new DateTimeTool()
 ];
@@ -96,23 +112,23 @@ $agent = new ReActAgent(
     llm_provider: 'openai',
     model: 'gpt-4o-mini',
     max_iterations: 5,
-    verbose: false  // Disabilitato per output pulito
+    verbose: false  // Disabled for clean output
 );
 
-echo "   ✓ Agent configurato con " . count($tools) . " tools\n\n";
+echo "   ✓ Agent configured with " . count($tools) . " tools\n\n";
 
 // ========================================
-// FASE 4: Demo conversazione
+// PHASE 4: Conversation demo
 // ========================================
-echo "💬 Fase 4: Demo conversazione RAG\n";
+echo "💬 Phase 4: RAG Conversation Demo\n";
 echo str_repeat("═", 54) . "\n\n";
 
-// Domande di test
+// Test queries
 $queries = [
-    "Cos'è DataPizza e cosa include?",
-    "Quali sono le specifiche del Raspberry Pi Model B?",
-    "Spiega il pattern ReAct in modo semplice",
-    "Quanto costa usare OpenAI embeddings per 100,000 token?"
+    "What is DataPizza and what does it include?",
+    "What are the specs of the Raspberry Pi Model B?",
+    "Explain the ReAct pattern in simple terms",
+    "How much does it cost to use OpenAI embeddings for 100,000 tokens?"
 ];
 
 foreach ($queries as $i => $query) {
@@ -124,7 +140,7 @@ foreach ($queries as $i => $query) {
     $elapsed = round((microtime(true) - $start_time) * 1000);
     
     echo "🤖 Assistant: $response\n";
-    echo "   ⏱️  Tempo risposta: {$elapsed}ms\n\n";
+    echo "   ⏱️  Response time: {$elapsed}ms\n\n";
     
     if ($i < count($queries) - 1) {
         echo str_repeat("─", 54) . "\n\n";
@@ -132,13 +148,62 @@ foreach ($queries as $i => $query) {
 }
 
 // ========================================
-// FASE 5: Statistiche finali
+// PHASE 5: Final statistics
 // ========================================
 echo str_repeat("═", 54) . "\n";
-echo "📊 Statistiche finali:\n";
-echo "   • Documenti nella knowledge base: " . $vectorstore->count() . "\n";
-echo "   • Tools disponibili: " . count($tools) . "\n";
-echo "   • Queries processate: " . count($queries) . "\n";
-echo "\n✅ Demo completata!\n";
-echo "\n💡 Suggerimento: Prova a modificare le queries in demo_rag_chatbot.php\n";
-echo "   per vedere come l'agent risponde a domande diverse!\n";
+echo "📊 Final Statistics:\n";
+echo "   • Documents in knowledge base: " . $vectorstore->count() . "\n";
+echo "   • Available tools: " . count($tools) . "\n";
+echo "   • Queries processed: " . count($queries) . "\n";
+echo "\n✅ Demo completed!\n";
+echo "\n💡 Tip: Try modifying the queries in demo_rag_chatbot.php\n";
+echo "   to see how the agent responds to different questions!\n";
+
+/**
+ * 🎓 What you just built:
+ * 
+ * A COMPLETE RAG (Retrieval-Augmented Generation) SYSTEM.
+ * 
+ * Let's break down what happened:
+ * 
+ * PHASE 1-2: Knowledge Base Creation
+ * - You took 6 documents about DataPizza
+ * - Converted each to a 1536-dimensional vector (embedding)
+ * - Stored them in a searchable vector store
+ * 
+ * PHASE 3: Agent Setup
+ * - Created an agent with RAGSearch tool
+ * - This tool can search the vector store semantically
+ * - "Semantically" means by MEANING, not just keywords
+ * 
+ * PHASE 4: Magic Happens
+ * For each question:
+ * 1. Agent receives the query
+ * 2. Recognizes it needs knowledge from the base
+ * 3. Uses RAGSearch tool to find relevant documents
+ * 4. Retrieves the most similar documents (by vector similarity)
+ * 5. Reads the retrieved text
+ * 6. Generates an answer using that context
+ * 
+ * This is RAG:
+ * - RETRIEVE: Find relevant docs from vector store
+ * - AUGMENT: Add them to the LLM prompt as context
+ * - GENERATE: LLM creates answer based on retrieved facts
+ * 
+ * Why is this powerful?
+ * - The LLM doesn't need to memorize facts (expensive training)
+ * - You can update the knowledge base anytime (just add documents)
+ * - It's grounded in YOUR data (not hallucinating)
+ * - Works on tiny hardware (Raspberry Pi 2011!)
+ * 
+ * This is the SAME architecture used by:
+ * - ChatGPT when searching your uploaded documents
+ * - Enterprise AI assistants searching company docs
+ * - Customer support bots searching help articles
+ * 
+ * And you built it. In PHP. On a 12-year-old board.
+ * With complete transparency - you can inspect every step.
+ * 
+ * Understanding beats horsepower. 🍕🚀
+ */
+?>
