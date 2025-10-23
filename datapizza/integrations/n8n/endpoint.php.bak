@@ -1,0 +1,95 @@
+<?php
+/**
+ * endpoint.php - n8n Integration Webhook
+ * Receives n8n workflow requests, executes agent, returns JSON
+ */
+
+require_once __DIR__ . '/../../agents/react_agent.php';
+require_once __DIR__ . '/../../agents/agent_with_memory.php';
+require_once __DIR__ . '/../../tools/calculator.php';
+require_once __DIR__ . '/../../tools/datetime_tool.php';
+require_once __DIR__ . '/../../tools/wikipedia_search.php';
+
+// Load environment
+$env = parse_ini_file(__DIR__ . '/../../../.env');
+foreach ($env as $key => $value) {
+    putenv("$key=$value");
+}
+
+// Headers
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+
+// Handle OPTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// Only POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
+    exit();
+}
+
+// Parse input
+$input = json_decode(file_get_contents('php://input'), true);
+
+if (!$input) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid JSON']);
+    exit();
+}
+
+// Extract parameters
+$query = $input['query'] ?? '';
+$session_id = $input['session_id'] ?? 'n8n_' . uniqid();
+$llm_provider = $input['llm_provider'] ?? 'deepseek';
+$use_memory = $input['use_memory'] ?? true;
+$tools = $input['tools'] ?? ['calculator', 'datetime'];
+
+if (empty($query)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Query required']);
+    exit();
+}
+
+try {
+    // Build tools
+    $agent_tools = [];
+    if (in_array('calculator', $tools)) $agent_tools[] = new Calculator();
+    if (in_array('datetime', $tools)) $agent_tools[] = new DateTimeTool();
+    if (in_array('wikipedia', $tools)) $agent_tools[] = new WikipediaSearchTool();
+    
+    // Create agent
+    $agent = new ReactAgent(
+        $agent_tools,
+        $llm_provider,
+        $input['model'] ?? 'default',
+        3
+    );
+    
+    // Execute
+    if ($use_memory) {
+        $response = agent_run_with_memory($agent, $session_id, $query);
+    } else {
+        $response = $agent->run($query);
+    }
+    
+    // Success
+    echo json_encode([
+        'success' => true,
+        'response' => $response,
+        'session_id' => $session_id,
+        'timestamp' => time()
+    ]);
+    
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage()
+    ]);
+}
