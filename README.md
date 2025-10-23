@@ -226,4 +226,6 @@ Built by **Paolo [paolomulas]**
 
 ## ❤️ Credits
 Inspired by [Datapizza Labs](https://github.com/datapizza-labs/datapizza-ai)  
-Ported to PHP to prove that even a 14-year-old Raspberry can still serve hot AI slices.  
+This PHP port brings RAG and AI agents to the PHP ecosystem, 
+running on vintage Raspberry Pi hardware.
+
