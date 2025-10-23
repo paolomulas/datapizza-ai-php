@@ -220,7 +220,7 @@ That’s RAG — no frameworks, no cloud, no mystery.
 
 ## 📜 License
 MIT License © 2025  
-Built by **Paolo [add your GitHub handle]**
+Built by **Paolo [paolomulas]**
 
 ---
 
