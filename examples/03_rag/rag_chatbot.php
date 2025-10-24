@@ -20,15 +20,15 @@
  * And you're running it on a 2011 Raspberry Pi. 🚀
  */
 
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
-require_once __DIR__ . '/../datapizza/vectorstores/simple_vectorstore.php';
-require_once __DIR__ . '/../datapizza/agents/react_agent.php';
-require_once __DIR__ . '/../datapizza/tools/calculator.php';
-require_once __DIR__ . '/../datapizza/tools/datetime_tool.php';
-require_once __DIR__ . '/../datapizza/tools/rag_search.php';
+require_once __DIR__ . '/../../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../datapizza/vectorstores/simple_vectorstore.php';
+require_once __DIR__ . '/../../datapizza/agents/react_agent.php';
+require_once __DIR__ . '/../../datapizza/tools/calculator.php';
+require_once __DIR__ . '/../../datapizza/tools/datetime_tool.php';
+require_once __DIR__ . '/../../datapizza/tools/rag_search.php';
 
 // Load environment variables
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/../../.env');
 foreach ($env as $key => $value) {
     putenv("$key=$value");
 }
@@ -43,7 +43,7 @@ echo "╚═══════════════════════�
 echo "📦 Phase 1: Initializing components...\n";
 
 $embedder = new OpenAIEmbedder();
-$vectorstore = new SimpleVectorStore(__DIR__ . '/../data/rag_demo.json');
+$vectorstore = new SimpleVectorStore(__DIR__ . '/../../data/rag_demo.json');
 $vectorstore->clear_all(); // Clean slate for demo
 
 echo "   ✓ Embedder initialized\n";
@@ -102,17 +102,18 @@ echo "🤖 Phase 3: Creating RAG Agent...\n";
 
 // Equip the agent with tools - including RAG search!
 $tools = [
-    new RAGSearch($vectorstore, $embedder),  // 🔍 Main tool for RAG
+    new RAGSearchTool($vectorstore, $embedder),   // 🔍 Main tool for RAG
     new Calculator(),
     new DateTimeTool()
 ];
 
-$agent = new ReActAgent(
-    tools: $tools,
-    llm_provider: 'openai',
-    model: 'gpt-4o-mini',
-    max_iterations: 5,
-    verbose: false  // Disabled for clean output
+// PHP 7.4: Use positional arguments
+$agent = new ReactAgent(
+    'openai',         // llm_provider
+    'gpt-4o-mini',    // model
+    $tools,           // tools
+    5,                // max_iterations
+    false             // verbose - Disabled for clean output
 );
 
 echo "   ✓ Agent configured with " . count($tools) . " tools\n\n";

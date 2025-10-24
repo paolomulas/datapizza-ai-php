@@ -21,12 +21,48 @@
  * File-based, simple, transparent. No database needed. 💾
  */
 
-require_once __DIR__ . '/../datapizza/agents/react_agent.php';
-require_once __DIR__ . '/../datapizza/memory/conversation_memory.php';
-require_once __DIR__ . '/../datapizza/tools/calculator.php';
+require_once __DIR__ . '/../../datapizza/agents/react_agent.php';
+require_once __DIR__ . '/../../datapizza/memory/conversation_memory.php';
+require_once __DIR__ . '/../../datapizza/tools/calculator.php';
+
+// Helper functions for memory-aware agent execution (PHP 7.4 compatible)
+function agent_run_with_memory($agent, $session_id, $query, $system_prompt = 'You are an educational AI tutor who remembers conversations') {
+    // Load context from memory
+    $context = memory_get_context($session_id, $system_prompt);
+    
+    // Build prompt with context
+    $prompt_with_context = build_context_prompt($context, $query);
+    
+    // Run agent
+    $response = $agent->run($prompt_with_context);
+    
+    // Save to memory
+    memory_add($session_id, 'user', $query);
+    memory_add($session_id, 'assistant', $response);
+    
+    return $response;
+}
+
+function build_context_prompt($context, $current_query) {
+    if (empty($context)) {
+        return $current_query;
+    }
+    
+    $prompt = "Previous conversation:\n";
+    foreach ($context as $msg) {
+        $role = strtoupper($msg['role']);
+        $content = $msg['content'];
+        $prompt .= "$role: $content\n";
+    }
+    
+    $prompt .= "\nNEW QUESTION: $current_query\n";
+    $prompt .= "Answer taking into account the previous conversation.";
+    
+    return $prompt;
+}
 
 // Setup environment variables
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/../../.env');
 foreach ($env as $key => $value) putenv("$key=$value");
 
 echo "=== ReAct Agent + Conversation Memory Test ===\n\n";
@@ -36,11 +72,13 @@ $session_id = 'demo_session_' . date('His');
 echo "Session ID: $session_id\n\n";
 
 // Setup agent with calculator tool
+// PHP 7.4: Use positional arguments
 $agent = new ReactAgent(
-    tools: [new Calculator()],
-    llm_provider: 'openai',
-    model: 'gpt-4o-mini',
-    max_iterations: 3
+    'openai',                    // llm_provider
+    'gpt-4o-mini',              // model
+    [new Calculator()],          // tools
+    3,                          // max_iterations
+    false                       // verbose
 );
 
 // Test 1: First interaction - Agent learns about user
@@ -50,15 +88,9 @@ echo str_repeat("-", 60) . "\n";
 $query1 = "Hi! My name is Paolo and I'm an AI student";
 echo "User: $query1\n";
 
-// First query - empty context (no memory yet)
-$context1 = memory_get_context($session_id, 'You are an educational AI tutor who remembers conversations');
-$response1 = $agent->run($query1, context: $context1);
-
+// First query - using helper function
+$response1 = agent_run_with_memory($agent, $session_id, $query1);
 echo "Agent: $response1\n";
-
-// Save to memory
-memory_add($session_id, 'user', $query1);
-memory_add($session_id, 'assistant', $response1);
 
 echo "\n⏳ Pause 2 seconds...\n\n";
 sleep(2);
@@ -71,14 +103,8 @@ $query2 = "What's my name? And what do I study?";
 echo "User: $query2\n";
 
 // Second query - WITH memory context
-$context2 = memory_get_context($session_id, 'You are an educational AI tutor who remembers conversations');
-$response2 = $agent->run($query2, context: $context2);
-
+$response2 = agent_run_with_memory($agent, $session_id, $query2);
 echo "Agent: $response2\n";
-
-// Save to memory
-memory_add($session_id, 'user', $query2);
-memory_add($session_id, 'assistant', $response2);
 
 echo "\n⏳ Pause 2 seconds...\n\n";
 sleep(2);
@@ -90,14 +116,8 @@ echo str_repeat("-", 60) . "\n";
 $query3 = "Calculate the square root of 144 and tell me if you still remember my name";
 echo "User: $query3\n";
 
-$context3 = memory_get_context($session_id, 'You are an educational AI tutor who remembers conversations');
-$response3 = $agent->run($query3, context: $context3);
-
+$response3 = agent_run_with_memory($agent, $session_id, $query3);
 echo "Agent: $response3\n";
-
-// Save to memory
-memory_add($session_id, 'user', $query3);
-memory_add($session_id, 'assistant', $response3);
 
 // Final statistics
 echo "\n" . str_repeat("=", 60) . "\n";

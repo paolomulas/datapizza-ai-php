@@ -27,13 +27,13 @@
  * This is how you prepare data for production RAG systems. 📚
  */
 
-require_once __DIR__ . '/../datapizza/pipeline/ingestion_pipeline.php';
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
-require_once __DIR__ . '/../datapizza/vectorstores/simple_vectorstore.php';
+require_once __DIR__ . '/../../datapizza/pipeline/ingestion_pipeline.php';
+require_once __DIR__ . '/../../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../datapizza/vectorstores/simple_vectorstore.php';
 
 // Load environment variables
-if (file_exists(__DIR__ . '/../.env')) {
-    $env = parse_ini_file(__DIR__ . '/../.env');
+if (file_exists(__DIR__ . '/../../.env')) {
+    $env = parse_ini_file(__DIR__ . '/../../.env');
     foreach ($env as $key => $value) {
         putenv("$key=$value");
     }
@@ -48,7 +48,7 @@ echo "╚═══════════════════════�
 // ========================================
 echo "📦 Initializing components...\n";
 $embedder = new OpenAIEmbedder();
-$vectorstore = new SimpleVectorStore(__DIR__ . '/../data/test_ingestion.json');
+$vectorstore = new SimpleVectorStore(__DIR__ . '/../../data/test_ingestion.json');
 $vectorstore->clear_all(); // Start fresh for demo
 echo " ✓ Embedder and VectorStore ready\n\n";
 
@@ -76,7 +76,7 @@ $documents = array(
 // - metadata: custom data to attach to each document
 echo "🔄 Running ingestion pipeline...\n\n";
 
-$stats = pipeline_ingest(
+$stats = pipeline_ingest_texts(
     $documents,
     $embedder,
     $vectorstore,
@@ -105,7 +105,8 @@ echo "Results found: " . count($results) . "\n\n";
 
 foreach ($results as $idx => $result) {
     echo "Result " . ($idx + 1) . ":\n";
-    echo "  Similarity: " . round($result['similarity'], 4) . "\n";
+    echo "  Similarity: " . round($result['score'], 4) . "\n";
+
     echo "  Text: " . substr($result['text'], 0, 80) . "...\n\n";
 }
 

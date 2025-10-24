@@ -23,11 +23,11 @@
  * After this, vector databases won't be mysterious anymore. 📐
  */
 
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
-require_once __DIR__ . '/../datapizza/vectorstores/simple_vectorstore.php';
+require_once __DIR__ . '/../../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../datapizza/vectorstores/simple_vectorstore.php';
 
 // Load environment variables
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/../../.env');
 foreach ($env as $key => $value) {
     putenv("$key=$value");
 }

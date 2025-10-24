@@ -25,7 +25,7 @@
  * Now you're building it yourself. In PHP. 🧩
  */
 
-require_once __DIR__ . '/../datapizza/pipeline/dag_pipeline.php';
+require_once __DIR__ . '/../../datapizza/pipeline/dag_pipeline.php';
 
 echo "╔══════════════════════════════════════════════════════╗\n";
 echo "║     🍕 DataPizza - DAG Pipeline Demo              ║\n";

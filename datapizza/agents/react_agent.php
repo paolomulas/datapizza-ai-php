@@ -15,6 +15,7 @@
  */
 
 require_once 'base_agent.php';
+require_once __DIR__ . '/../clients/dpz_call.php';
 
 class ReactAgent extends BaseAgent {
     
@@ -149,11 +150,14 @@ Final Answer: There are 72 days until Christmas!";
      */
     private function call_llm($messages) {
         // Different providers use different endpoints
-        $endpoint = match($this->llm_provider) {
-            'openai' => 'v1/chat/completions',
-            'deepseek' => 'chat/completions',
-            default => 'v1/chat/completions'
-        };
+        // PHP 7.4: Use if/else instead of match expression
+        if ($this->llm_provider === 'openai') {
+            $endpoint = 'v1/chat/completions';
+        } elseif ($this->llm_provider === 'deepseek') {
+            $endpoint = 'chat/completions';
+        } else {
+            $endpoint = 'v1/chat/completions';
+        }
 
         $payload = [
             'model' => $this->model,

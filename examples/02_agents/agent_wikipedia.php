@@ -16,13 +16,13 @@
  * This is how ChatGPT plugins work. Same principle. Your Raspberry Pi. 🌍
  */
 
-require_once __DIR__ . '/../datapizza/agents/react_agent.php';
-require_once __DIR__ . '/../datapizza/tools/calculator.php';
-require_once __DIR__ . '/../datapizza/tools/datetime_tool.php';
-require_once __DIR__ . '/../datapizza/tools/wikipedia_search.php';
+require_once __DIR__ . '/../../datapizza/agents/react_agent.php';
+require_once __DIR__ . '/../../datapizza/tools/calculator.php';
+require_once __DIR__ . '/../../datapizza/tools/datetime_tool.php';
+require_once __DIR__ . '/../../datapizza/tools/wikipedia_search.php';
 
 // Load environment variables
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/../../.env');
 foreach ($env as $key => $value) {
     putenv("$key=$value");
 }
@@ -40,12 +40,13 @@ $tools = [
 
 // Step 2: Initialize the agent
 // Same setup as before - we just added a new tool to the toolkit
+// PHP 7.4: Use positional arguments (matching new BaseAgent constructor order)
 $agent = new ReactAgent(
-    tools: $tools,
-    llm_provider: 'openai',
-    model: 'gpt-4o-mini',
-    max_iterations: 5,
-    verbose: true                  // Watch it decide when to search Wikipedia!
+    'openai',         // llm_provider (1st param)
+    'gpt-4o-mini',    // model (2nd param)
+    $tools,           // tools (3rd param)
+    5,                // max_iterations (4th param)
+    true              // verbose - Watch it decide when to search Wikipedia! (5th param)
 );
 
 // Test 1: Wikipedia search

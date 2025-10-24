@@ -19,15 +19,15 @@
  * Not just "it works" - but "this is HOW it works". 🔍
  */
 
-require_once __DIR__ . '/../datapizza/pipeline/ingestion_pipeline.php';
-require_once __DIR__ . '/../datapizza/modules/retrieval_utils.php';
-require_once __DIR__ . '/../datapizza/modules/prompt/chat_prompt_template.php';
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
-require_once __DIR__ . '/../datapizza/vectorstores/simple_vectorstore.php';
+require_once __DIR__ . '/../../datapizza/pipeline/ingestion_pipeline.php';
+require_once __DIR__ . '/../../datapizza/modules/retrieval_utils.php';
+require_once __DIR__ . '/../../datapizza/modules/prompt/chat_prompt_template.php';
+require_once __DIR__ . '/../../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../datapizza/vectorstores/simple_vectorstore.php';
 
 // Load environment variables
-if (file_exists(__DIR__ . '/../.env')) {
-    $env = parse_ini_file(__DIR__ . '/../.env');
+if (file_exists(__DIR__ . '/../../.env')) {
+    $env = parse_ini_file(__DIR__ . '/../../.env');
     foreach ($env as $key => $value) {
         putenv("$key=$value");
     }
@@ -39,7 +39,7 @@ echo "╚═══════════════════════�
 
 // Setup components
 $embedder = new OpenAIEmbedder();
-$vectorstore = new SimpleVectorStore(__DIR__ . '/../data/rag_complete.json');
+$vectorstore = new SimpleVectorStore(__DIR__ . '/../../data/rag_complete.json');
 
 // ========================================
 // PHASE 1: INGESTION (if DB empty)
@@ -58,7 +58,8 @@ if ($doc_count == 0) {
     );
     
     // Ingest: convert docs → embeddings → store
-    pipeline_ingest($docs, $embedder, $vectorstore, 200, 30, array('source' => 'docs'));
+  pipeline_ingest_texts($docs, $embedder, $vectorstore, 200, 30, array('source' => 'docs'));
+
     $doc_count = $vectorstore->count();
 }
 
@@ -77,7 +78,9 @@ echo "User: $user_query\n\n";
 // ========================================
 echo "🔍 Phase 3: Retrieving relevant documents...\n";
 // This converts the query to embedding and finds similar docs
-$results = retrieval_search($vectorstore, $embedder, $user_query, 2, 0.0);
+$results = retrieval_search($embedder, $vectorstore, $user_query, 2, 0.0);
+
+
 echo "✓ Found: " . count($results) . " documents\n\n";
 
 foreach ($results as $idx => $r) {

@@ -15,12 +15,12 @@
  * You get back generated text. That's it. That's AI.
  */
 
-//require_once __DIR__ . '/../datapizza/clients/openai.php';
-require_once __DIR__ . '/../datapizza/clients/deepseek.php';  // ✅ Changed!
+//require_once __DIR__ . '/../../datapizza/clients/openai.php';
+require_once __DIR__ . '/../../datapizza/clients/deepseek.php';  // ✅ Changed!
 
 // Step 1: Load API keys from .env file
 // (Never hardcode secrets! Always use environment variables)
-$env = parse_ini_file(__DIR__ . '/../.env');
+$env = parse_ini_file(__DIR__ . '/../../.env');
 foreach ($env as $key => $value) {
     putenv("$key=$value");
 }

@@ -26,6 +26,43 @@
  * - Maintainability: Change pipeline logic in one place
  */
 
+
+
+
+/**
+ * Simplified ingestion for text strings (not files)
+ * 
+ * @param array $docs Array of text strings
+ * @param object $embedder Embedder instance
+ * @param object $vectorstore VectorStore instance
+ * @param int $chunk_size Unused (kept for compatibility)
+ * @param int $chunk_overlap Unused (kept for compatibility)
+ * @param array $metadata Metadata to attach to all docs
+ * @return int Number of documents ingested
+ */
+function pipeline_ingest_texts($docs, $embedder, $vectorstore, $chunk_size = 500, $chunk_overlap = 50, $metadata = array()) {
+    $count = 0;
+    
+    foreach ($docs as $doc) {
+        // Embed the document
+        $embedding = $embedder->embed($doc);
+        
+        // Store in vectorstore
+        $vectorstore->add_document($doc, $embedding, $metadata);
+        
+        $count++;
+        
+        echo "   ✓ Ingested: " . substr($doc, 0, 60) . "...\n";
+    }
+    
+    echo "\n";
+    return $count;
+}
+
+
+
+
+
 /**
  * Ingests multiple documents into vectorstore
  * 

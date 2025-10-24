@@ -24,15 +24,15 @@
  * Not toy examples. The real deal. 🚀
  */
 
-require_once __DIR__ . '/../datapizza/pipeline/dag_pipeline.php';
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
-require_once __DIR__ . '/../datapizza/vectorstores/simple_vectorstore.php';
-require_once __DIR__ . '/../datapizza/modules/retrieval_utils.php';
-require_once __DIR__ . '/../datapizza/modules/prompt/chat_prompt_template.php';
+require_once __DIR__ . '/../../datapizza/pipeline/dag_pipeline.php';
+require_once __DIR__ . '/../../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../datapizza/vectorstores/simple_vectorstore.php';
+require_once __DIR__ . '/../../datapizza/modules/retrieval_utils.php';
+require_once __DIR__ . '/../../datapizza/modules/prompt/chat_prompt_template.php';
 
 // Load environment variables
-if (file_exists(__DIR__ . '/../.env')) {
-    $env = parse_ini_file(__DIR__ . '/../.env');
+if (file_exists(__DIR__ . '/../../.env')) {
+    $env = parse_ini_file(__DIR__ . '/../../.env');
     foreach ($env as $key => $value) {
         putenv("$key=$value");
     }
@@ -44,7 +44,7 @@ echo "╚═══════════════════════�
 
 // Setup real components (where the REAL data comes from!)
 $embedder = new OpenAIEmbedder();
-$vectorstore = new SimpleVectorStore(__DIR__ . '/../data/rag_complete.json');
+$vectorstore = new SimpleVectorStore(__DIR__ . '/../../data/rag_complete.json');
 
 echo "📊 VectorStore: " . $vectorstore->count() . " documents\n\n";
 

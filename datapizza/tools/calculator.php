@@ -24,7 +24,7 @@ class Calculator extends BaseTool {
     
     public function __construct() {
         $this->name = "calculator";
-        $this->description = "Performs mathematical calculations. Supports +, -, *, /, %, sqrt, pow, sin, cos, etc.";
+        $this->description = "Performs mathematical calculations. Supports +, -, *, /, %, sqrt, pow, abs.";
     }
     
     /**
@@ -34,9 +34,7 @@ class Calculator extends BaseTool {
      * eval() is dangerous if used with unsanitized input. Someone could inject:
      * "system('rm -rf /')" and delete your entire system!
      * 
-     * Our solution: Whitelist allowed characters.
-     * Only 0-9, +, -, *, /, ., (, ), and spaces are permitted.
-     * Everything else is stripped before eval().
+     * Our solution: Whitelist allowed characters + safe function conversion.
      * 
      * @param array $params Must contain 'expression' key
      * @return string Calculation result or error message
@@ -49,15 +47,26 @@ class Calculator extends BaseTool {
         
         $expression = $params['expression'];
         
+        // Convert safe functions to PHP equivalents
+        // sqrt(x) → pow(x, 0.5) for better compatibility
+        $expression = preg_replace('/sqrt\s*\(\s*([^)]+)\s*\)/', 'pow($1, 0.5)', $expression);
+        
+        // pow(x, y) stays as is (already PHP function)
+        // abs(x) stays as is (already PHP function)
+        
         // Security: Sanitize input by removing any non-math characters
-        // Whitelist approach: only allow safe characters
-        // This prevents code injection via eval()
-        $expression = preg_replace('/[^0-9+\-*\/\.\(\)\s]/', '', $expression);
+        // Whitelist: numbers, operators, parentheses, spaces, %, and letters (for pow/abs)
+        $expression = preg_replace('/[^0-9+\-*\/\.\(\)\s%,powabs]/', '', $expression);
         
         try {
             // Safe eval() - only math operations allowed
-            // The sanitized expression can only contain arithmetic
-            $result = eval("return $expression;");
+            // @ suppresses warnings for cleaner error handling
+            $result = @eval("return $expression;");
+            
+            if ($result === false || $result === null) {
+                return "Calculation error: Invalid expression";
+            }
+            
             return "Result: " . $result;
             
         } catch (Exception $e) {
@@ -72,7 +81,7 @@ class Calculator extends BaseTool {
      * This tells the LLM:
      * - The tool expects one parameter called 'expression'
      * - It should be a string
-     * - It's a math expression like "2+2" or "15*3"
+     * - It's a math expression like "2+2" or "sqrt(144)"
      * - It's required (AI must provide it)
      * 
      * @return array JSON Schema for calculator parameters
@@ -83,7 +92,7 @@ class Calculator extends BaseTool {
             'properties' => [
                 'expression' => [
                     'type' => 'string',
-                    'description' => 'Mathematical expression to calculate (e.g., "2+2", "15*3", "(100-20)/4")'
+                    'description' => 'Mathematical expression to calculate (e.g., "2+2", "15*3", "sqrt(144)", "pow(2,3)")'
                 ]
             ],
             'required' => ['expression']
