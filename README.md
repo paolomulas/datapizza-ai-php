@@ -2,7 +2,7 @@
 > *Designed and built on a Raspberry Pi Model B (2011). No GPU, no Docker, no excuses.*
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![PHP](https://img.shields.io/badge/PHP-7.x-blue.svg)]()
+[![PHP](https://img.shields.io/badge/PHP-8.x-blue.svg)]()
 [![Platform](https://img.shields.io/badge/Runs_on-RaspberryPi_1_Model_B-red.svg)]()
 [![Architecture](https://img.shields.io/badge/Architecture-API--first-lightgrey.svg)]()
 [![Focus](https://img.shields.io/badge/Focus-Educational-yellow.svg)]()
