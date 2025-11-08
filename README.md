@@ -87,7 +87,7 @@ Each folder is self-contained, readable, and ready to hack.
 
 ## ⚙️ Requirements
 
-- PHP ≥ 7.0 (only `curl` and `json`)  
+- PHP ≥ 8.2 (only `curl` and `json`)  
 - 256 MB RAM is plenty  
 - Internet required only for API calls  
 
