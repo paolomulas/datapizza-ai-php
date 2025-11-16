@@ -102,7 +102,7 @@ Works on:
 
 ## 🚀 Quick start
 ```bash
-git clone https://github.com/yourhandle/datapizza-ai-php.git
+git clone https://github.com/paolomulas/datapizza-ai-php.git
 cd datapizza-ai-php
 php -S localhost:8080 -t examples
 php examples/hello_pizza.php
