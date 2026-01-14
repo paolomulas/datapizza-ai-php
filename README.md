@@ -219,8 +219,13 @@ That’s RAG — no frameworks, no cloud, no mystery.
 ---
 
 ## 📜 License
+
 MIT License © 2025  
-Built by **Paolo [paolomulas]**
+Built by **Paolo Mulas** (paolomulas)
+
+If this project or its architectural ideas are reused,
+a reference to this repository is appreciated.
+
 
 ---
 
