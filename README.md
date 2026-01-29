@@ -2,7 +2,7 @@
 > *Designed and built on a Raspberry Pi Model B (2011). No GPU, no Docker, no excuses.*
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![PHP](https://img.shields.io/badge/PHP-7.x-blue.svg)]()
+[![PHP](https://img.shields.io/badge/PHP-8.x-blue.svg)]()
 [![Platform](https://img.shields.io/badge/Runs_on-RaspberryPi_1_Model_B-red.svg)]()
 [![Architecture](https://img.shields.io/badge/Architecture-API--first-lightgrey.svg)]()
 [![Focus](https://img.shields.io/badge/Focus-Educational-yellow.svg)]()
@@ -88,7 +88,7 @@ Each folder is self-contained, readable, and ready to hack.
 
 ## ⚙️ Requirements
 
-- PHP ≥ 7.0 (only `curl` and `json`)  
+- PHP ≥ 8.2 (only `curl` and `json`)  
 - 256 MB RAM is plenty  
 - Internet required only for API calls  
 
@@ -103,7 +103,7 @@ Works on:
 
 ## 🚀 Quick start
 ```bash
-git clone https://github.com/yourhandle/datapizza-ai-php.git
+git clone https://github.com/paolomulas/datapizza-ai-php.git
 cd datapizza-ai-php
 php -S localhost:8080 -t examples
 php examples/hello_pizza.php
@@ -233,8 +233,13 @@ The agent demonstrates practical system monitoring capabilities using AI reasoni
 ---
 
 ## 📜 License
+
 MIT License © 2025  
-Built by **Paolo [paolomulas]**
+Built by **Paolo Mulas** (paolomulas)
+
+If this project or its architectural ideas are reused,
+a reference to this repository is appreciated.
+
 
 ---
 
