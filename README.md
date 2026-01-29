@@ -8,10 +8,11 @@
 [![Focus](https://img.shields.io/badge/Focus-Educational-yellow.svg)]()
 [![Power](https://img.shields.io/badge/Power_Usage-~3W-orange.svg)]()
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
+[![Featured in ADMIN Magazine](https://img.shields.io/badge/Featured_in-ADMIN_Magazine_Feb_2026-blue.svg)]()
 
 **Datapizza-AI PHP** is an educational, ultra-minimal port of the original [Datapizza AI](https://github.com/datapizza-labs/datapizza-ai), rewritten in **pure PHP 7.x**.
 
-It doesn’t try to compete with Python.  
+It doesn't try to compete with Python.  
 It exists to remind you that **understanding beats horsepower**.
 
 This project lets you explore how an AI system actually works — embeddings, vector stores, retrieval pipelines, and agents — using the most classic web language of them all.
@@ -33,8 +34,8 @@ It was built to:
 - run on low-power hardware (file-based, no DB, no composer),  
 - serve as a DIY / educational sandbox for students, makers, and retro-computing fans.
 
-It’s not enterprise-grade cloud software —  
-but it’s perfectly capable of powering **local automations, document search, and home-lab AI experiments**.
+It's not enterprise-grade cloud software —  
+but it's perfectly capable of powering **local automations, document search, and home-lab AI experiments**.
 
 With native integration for **n8n** and **Model Context Protocol (MCP)**,  
 Datapizza-AI PHP acts as a bridge between your local logic and modern AI ecosystems.  
@@ -51,16 +52,16 @@ They need Conda, CUDA, Poetry, virtual environments, and a small prayer.
 Even the few PHP ones that exist wrap around massive SDKs and require hardware that would melt a Raspberry Pi.
 
 **Datapizza-AI PHP** takes the opposite path:  
-it’s not a layer on top of another layer — it’s the ground floor, built brick by brick.
+it's not a layer on top of another layer — it's the ground floor, built brick by brick.
 
 - No Composer, no Docker, no Conda.  
 - No hidden daemons or background services.  
 - Algorithms written line by line, from scratch.  
 - Vector stores as plain JSON, readable with any text editor.  
 - Cosine similarity calculated in vanilla PHP — no math libraries required.  
-- Designed to run where complexity isn’t welcome: your local machine.
+- Designed to run where complexity isn't welcome: your local machine.
 
-If Python frameworks are skyscrapers, this one’s the **garage workshop** —  
+If Python frameworks are skyscrapers, this one's the **garage workshop** —  
 messy, curious, and transparent. You can open it, break it, fix it, and understand it.
 
 ---
@@ -96,7 +97,7 @@ Works on:
 - Zero W / 3B / 4  
 - Any shared hosting or XAMPP/LAMP stack  
 
-> “Runs happily on boards that cost less than your monthly coffee habit.”
+> "Runs happily on boards that cost less than your monthly coffee habit."
 
 ---
 
@@ -134,6 +135,7 @@ Expected output:
 | `test_agent_with_search.php` | External tools |
 | `test_embedder.php` | Generate and inspect embeddings |
 | `test_dag_pipeline.php` | Visualize the pipeline flow |
+| **`examples/05_sysadmin/`** | **🎯 Featured in ADMIN Magazine** - Complete sysadmin agent with disk monitoring, uptime checks, and log analysis tools |
 
 ---
 
@@ -150,7 +152,7 @@ No vector databases.
 No hidden optimizations.  
 Just logic and loops.
 
-That’s it — no NumPy, no BLAS, no GPU acceleration.  
+That's it — no NumPy, no BLAS, no GPU acceleration.  
 Just math, curiosity, and a board that sips about **3 watts** of power.
 
 ---
@@ -163,7 +165,7 @@ Just math, curiosity, and a board that sips about **3 watts** of power.
 - **Runs anywhere** — shared hosts, Raspberry Pi, old netbooks  
 - **Transparent** — trace every step, understand every result  
 
-This is not about horsepower — it’s about **comprehension**.
+This is not about horsepower — it's about **comprehension**.
 
 ---
 
@@ -197,7 +199,7 @@ Pipeline:
 4. Prompt LLM  
 5. Print answer  
 
-That’s RAG — no frameworks, no cloud, no mystery.
+That's RAG — no frameworks, no cloud, no mystery.
 
 ---
 
@@ -214,7 +216,19 @@ That’s RAG — no frameworks, no cloud, no mystery.
 - Tiny web UI for debugging  
 - Extra tools (YouTube, PDF)  
 - SHA-1 embedding cache  
-- *“AI on Raspberry”* tutorial series  
+- *"AI on Raspberry"* tutorial series  
+
+---
+
+## 📰 Featured In
+
+**ADMIN Magazine, Issue 92 – February 2026**  
+*"Datapizza-AI-PHP: Edge AI Automation on a 2011 Raspberry Pi"*
+
+This project was featured in ADMIN Magazine with a complete real-world use case: the **Sysadmin Agent**.  
+The agent demonstrates practical system monitoring capabilities using AI reasoning — disk space analysis, uptime checks, and log file inspection — all orchestrated by a ReAct-style agent running on minimal hardware.
+
+👉 See the complete implementation in `examples/05_sysadmin/`
 
 ---
 
@@ -228,4 +242,3 @@ Built by **Paolo [paolomulas]**
 Inspired by [Datapizza Labs](https://github.com/datapizza-labs/datapizza-ai)  
 This PHP port brings RAG and AI agents to the PHP ecosystem, 
 running on vintage Raspberry Pi hardware.
-

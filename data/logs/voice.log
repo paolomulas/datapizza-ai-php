@@ -1,0 +1,57 @@
+[2025-11-08 09:09:29] Comando #1: ciao come stai?
+[2025-11-08 09:09:33] LLM: Ciao! Sto bene, grazie. Come posso aiutarti oggi?
+[2025-11-08 14:31:04] Comando #1: ciao come stai?
+[2025-11-08 14:31:08] LLM: Ciao! Sto bene, grazie. Come posso aiutarti oggi?
+[2025-11-08 14:31:53] Comando #1: ciao come stai?
+[2025-11-08 14:31:56] LLM: Ciao! Sto bene, grazie. Come posso aiutarti oggi?
+[2025-11-08 14:33:53] Comando #1: ciao come stai?
+[2025-11-08 14:33:57] LLM: Ciao! Sto bene, grazie. Come posso aiutarti oggi?
+[2025-11-08 14:50:23] Comando #1: ciao
+[2025-11-08 14:50:27] LLM (mistral-tiny, 3332ms): Ciao, come posso aiutarti oggi?
+[2025-11-08 14:50:32] Pipeline: 8801ms (LLM:3332ms, TTS:3271ms, Play:2186ms)
+[2025-11-08 14:51:04] Comando #2: traduci in inglese: la vita è bella
+[2025-11-08 14:51:07] LLM (mistral-tiny, 3166ms): Life is beautiful.
+[2025-11-08 14:51:12] Pipeline: 8114ms (LLM:3166ms, TTS:3355ms, Play:1582ms)
+[2025-11-08 14:51:20] Comando #3: raccontami una barzelletta
+[2025-11-08 14:51:23] LLM (mistral-tiny, 3261ms): "Barzelletta: Cos'è il piatto preferito del pronto soccorso? Pizza di prima soccorso!"
+[2025-11-08 14:51:32] Pipeline: 11560ms (LLM:3261ms, TTS:3395ms, Play:4895ms)
+[2025-11-08 15:01:07] Comando #4: ciao come stai?
+[2025-11-08 15:01:10] LLM (mistral-tiny, 3265ms): Ciao, sto bene grazie! Come puoi aiutarmi oggi?
+[2025-11-08 15:01:16] Pipeline: 9558ms (LLM:3265ms, TTS:3377ms, Play:2905ms)
+[2025-11-08 15:01:42] Comando #5: quanto fa 127 per 43?
+[2025-11-08 15:01:46] LLM (mistral-tiny, 3252ms): 3,11 ( округляем до двух знаков после запятой)
+[2025-11-08 15:01:52] Pipeline: 9669ms (LLM:3252ms, TTS:3306ms, Play:3096ms)
+[2025-11-08 15:02:04] Comando #6: quanto fa 127 per 43?
+[2025-11-08 15:02:07] LLM (mistral-tiny, 3169ms): 3,11 (risposta arrotondata)
+[2025-11-08 15:02:13] Pipeline: 8999ms (LLM:3169ms, TTS:3347ms, Play:2465ms)
+[2025-11-08 15:02:24] Comando #7: chi ha inventato la lampadina?
+[2025-11-08 15:02:27] LLM (mistral-tiny, 3209ms): Thomas Edison ha inventato la lampadina elettrica.
+[2025-11-08 15:02:34] Pipeline: 9816ms (LLM:3209ms, TTS:3335ms, Play:3253ms)
+[2025-11-08 15:10:12] Monitor fermato - 0 comandi processati
+[2025-11-08 15:14:55] Comando #1: ciao come stai?
+[2025-11-08 15:14:58] LLM (mistral-tiny, 3216ms): Ciao, stai bene?
+[2025-11-08 15:15:03] Pipeline: 7926ms (LLM:3216ms, TTS:3275ms, Play:1423ms)
+[2025-11-08 15:19:05] Comando #2: raccontami una barzelletta
+[2025-11-08 15:19:08] LLM (mistral-tiny, 3374ms): "La mamma mi ha detto: 'Hai mangiato troppo pizza, ora sei grande come una casa!' Ho risposto: 'Ma mamma, io vivo in una casa!'"
+[2025-11-08 15:19:19] Pipeline: 14649ms (LLM:3374ms, TTS:3442ms, Play:7816ms)
+[2025-11-08 15:20:28] Comando #3: che tempo fa oggi a cagliari?
+[2025-11-08 15:20:32] LLM (mistral-tiny, 3216ms): Oggi a Cagliari fa \_\_\_\_\_\_ (condiziona meteo).
+[2025-11-08 15:20:38] Pipeline: 9843ms (LLM:3216ms, TTS:3377ms, Play:3242ms)
+[2025-11-08 15:20:51] Comando #4: non ho capito la risposta di prima ?
+[2025-11-08 15:20:55] LLM (mistral-tiny, 3282ms): Sì, posso ripetere la risposta. In questa sessione, ho stabilito che sono un assistente vocale chiamato DataPizza.
+[2025-11-08 15:21:05] Pipeline: 13194ms (LLM:3282ms, TTS:3479ms, Play:6418ms)
+[2025-11-08 15:34:27] Monitor fermato - 0 comandi processati
+[2025-11-08 15:34:30] Command #1: non ho capito la risposta di prima ?
+[2025-11-08 15:34:33] LLM (context:0, 3440ms): Sono very sorry se non ho capito la tua domanda. Prego, ripetila la domanda per aiutarmi a rispondere correttamente.
+[2025-11-08 15:38:11] Stopped - 0 commands - 2 messages in memory
+[2025-11-08 15:38:17] LLM (context:2, 3373ms): Sai che ho detto prima? Prego, ricorda la domanda perché posso rispondere meglio.
+[2025-11-08 15:41:36] LLM (context:4, 3202ms): Oggi a Cagliari fa circa 20 gradi, cielo sereno.
+[2025-11-08 15:42:05] LLM (context:6, 3268ms): Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.
+[2025-11-08 16:03:09] LLM (context:8, 3375ms): Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.
+[2025-11-08 16:05:19] LLM (context:10, 3392ms): Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.
+[2025-11-08 16:06:14] LLM (context:12, 3317ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.
+[2025-11-08 17:53:44] LLM (context:14, 3452ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.
+[2025-11-08 18:07:39] LLM (context:16, 3441ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.
+[2025-11-08 18:12:18] LLM (context:18, 3334ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.
+[2025-11-08 18:13:05] LLM (context:20, 3571ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.
+[2025-11-08 18:19:02] LLM (context:20, 3314ms): Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.

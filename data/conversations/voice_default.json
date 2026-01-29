@@ -1,0 +1,102 @@
+[
+    {
+        "role": "user",
+        "content": "che tempo fa oggi a cagliari?",
+        "timestamp": 1762616495
+    },
+    {
+        "role": "assistant",
+        "content": "Oggi a Cagliari fa circa 20 gradi, cielo sereno.",
+        "timestamp": 1762616495
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762616525
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.",
+        "timestamp": 1762616525
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762617789
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.",
+        "timestamp": 1762617789
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762617919
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri a Cagliari faceva circa 22 gradi, cielo nuvoloso.",
+        "timestamp": 1762617919
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762617974
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762617974
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762624424
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762624424
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762625259
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762625259
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762625538
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762625538
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762625585
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762625585
+    },
+    {
+        "role": "user",
+        "content": "e ieri come era il meteo sempre in questa citta?",
+        "timestamp": 1762625942
+    },
+    {
+        "role": "assistant",
+        "content": "Ieri faceva circa 22 gradi, cielo nuvoloso ad Cagliari.",
+        "timestamp": 1762625942
+    }
+]
