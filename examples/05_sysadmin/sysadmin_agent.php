@@ -62,16 +62,22 @@ echo str_repeat("=", 60) . "\n";
 $response = $agent->run("Is the root filesystem getting full? Check disk usage.");
 echo "\n🎯 Final answer:\n$response\n\n";
 
-// Test 3: Log analysis (if you have syslog)
+// Test 3: Log analysis (dummy server log)
 echo "\n📋 Test 3: Log Analysis\n";
 echo str_repeat("=", 60) . "\n";
-$response = $agent->run("Search for any errors in /var/log/syslog in the last 10 entries.");
+$response = $agent->run(
+    "Search for authentication failures (pattern 'Failed') in /home/paolo/datapizza-ai-php/dummy_server.log."
+);
 echo "\n🎯 Final answer:\n$response\n\n";
+
 
 // Test 4: Multi-step reasoning
 echo "\n🧠 Test 4: Complex Query\n";
 echo str_repeat("=", 60) . "\n";
-$response = $agent->run("Give me a server health report: check uptime, disk space, and tell me if there are any authentication failures in the logs.");
+$response = $agent->run(
+    "Give me a server health report: check uptime, disk space, and look for authentication failures (pattern 'Failed') in /home/paolo/datapizza-ai-php/dummy_server.log."
+);
+
 echo "\n🎯 Final answer:\n$response\n\n";
 
 echo "✅ Sysadmin Agent test completed!\n\n";
