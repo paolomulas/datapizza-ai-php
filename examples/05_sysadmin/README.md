@@ -1,19 +1,21 @@
 # 🛠️ Sysadmin Agent Example
 
-This example demonstrates how to use **Datapizza-AI-PHP** to build the "Sysadmin Agent" featured in the ADMIN Magazine article.
+This example demonstrates three narrow, read-only inspection tools used by the "Sysadmin Agent" featured in the ADMIN Magazine article and Chapter 8 of the book.
+
+> The local tool boundaries are covered by an offline test. The full ReAct example additionally requires provider credentials and an operator-selected, non-sensitive log through `SYSADMIN_DEMO_LOG`.
 
 ---
 
 ## 📋 What it does
 
-The agent provides comprehensive system monitoring capabilities:
+The agent provides bounded inspection capabilities:
 
 - **✅ Disk Space Monitoring** - Check disk usage via `DiskSpaceTool`
-- **✅ System Uptime & Load** - Monitor uptime and system load via `SystemUptimeTool`
-- **✅ Log Analysis** - Search log files for patterns (safely, with whitelisted paths) via `LogGrepTool`
+- **✅ System Uptime** - Read one proc-style uptime source via `SystemUptimeTool`
+- **✅ Log Analysis** - Search an approved `.log` or `.txt` file for literal text via `LogGrepTool`
 - **✅ High-Level Queries** - Answer complex questions like "Is the server healthy?" by combining multiple tools
 
-All operations are orchestrated by a ReAct-style agent that intelligently decides which tools to call, in which order, and explains results in natural language.
+The tools expose no general shell or caller-controlled command string. Their observations remain bounded evidence, not a complete health verdict.
 
 ---
 
@@ -22,9 +24,10 @@ All operations are orchestrated by a ReAct-style agent that intelligently decide
 From the repository root:
 
 ```bash
-cd examples/05_sysadmin
-php sysadmin_agent.php
+php examples/04_advanced/tests/test_sysadmin_tools.php
 ```
+
+For a reviewed live demo, set `SYSADMIN_DEMO_LOG` to an approved readable file, configure the provider key, and run `php examples/05_sysadmin/sysadmin_agent.php`.
 
 ### Demo Runs
 
