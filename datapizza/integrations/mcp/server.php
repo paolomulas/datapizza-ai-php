@@ -23,7 +23,7 @@
 
 // Load required dependencies
 require_once __DIR__ . '/../../tools/calculator.php';
-require_once __DIR__ . '/../../tools/datetime.php';
+require_once __DIR__ . '/../../tools/datetime_tool.php';
 require_once __DIR__ . '/../../tools/wikipedia_search.php';
 
 // ============================================
@@ -85,9 +85,9 @@ function mcp_find_tool($name) {
  */
 function mcp_initialize($params) {
     return [
-        'protocolVersion' => '2024-11-05',
+        'protocolVersion' => '2025-11-25',
         'capabilities' => [
-            'tools' => ['listChanged' => true]  // We support tool listing
+            'tools' => ['listChanged' => false]
         ],
         'serverInfo' => [
             'name' => 'DataPizza-AI-PHP',
@@ -113,14 +113,26 @@ function mcp_list_tools() {
     $tools = mcp_get_tool_info();
     
     foreach ($tools as $name => $info) {
+        $schema = $info['instance']->get_parameters_schema();
+        if (!isset($schema['type']) || $schema['type'] !== 'object') {
+            $required = [];
+            foreach ($schema as $field => $definition) {
+                if (($definition['required'] ?? false) === true) {
+                    $required[] = $field;
+                }
+                unset($schema[$field]['required']);
+            }
+            $schema = [
+                'type' => 'object',
+                'properties' => $schema,
+                'required' => $required
+            ];
+        }
+
         $list[] = [
             'name' => $name,
             'description' => $info['description'],
-            'inputSchema' => [
-                'type' => 'object',
-                'properties' => $info['instance']->get_parameters_schema(),
-                'required' => []  // Tool-specific required fields
-            ]
+            'inputSchema' => $schema
         ];
     }
     
@@ -168,13 +180,13 @@ function mcp_call_tool($params) {
             ]
         ];
         
-    } catch (Exception $e) {
-        // Return JSON-RPC error for execution failure
+    } catch (Throwable $e) {
+        // Tool failures are MCP tool results so the client can present or repair them.
         return [
-            'error' => [
-                'code' => -32603,  // Internal error
-                'message' => "Tool execution failed: " . $e->getMessage()
-            ]
+            'content' => [
+                ['type' => 'text', 'text' => 'Tool execution failed']
+            ],
+            'isError' => true
         ];
     }
 }
@@ -241,6 +253,14 @@ while ($line = fgets(STDIN)) {
         case 'tools/call':
             $result = mcp_call_tool($params);
             break;
+
+        case 'ping':
+            $result = [];
+            break;
+
+        case 'notifications/initialized':
+            // JSON-RPC notifications do not receive a response.
+            continue 2;
             
         default:
             // Unknown method - send method not found error

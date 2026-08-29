@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../datapizza/tools/calculator.php';
-require_once __DIR__ . '/../datapizza/tools/datetime_tool.php';
-require_once __DIR__ . '/../datapizza/tools/file_reader.php';
+require_once __DIR__ . '/../../../datapizza/tools/calculator.php';
+require_once __DIR__ . '/../../../datapizza/tools/datetime_tool.php';
+require_once __DIR__ . '/../../../datapizza/tools/file_reader.php';
 
 echo "=== Test Tools ===\n\n";
 

@@ -3,7 +3,7 @@
  * Test Prompt Templates
  */
 
-require_once __DIR__ . '/../datapizza/modules/prompt/chat_prompt_template.php';
+require_once __DIR__ . '/../../../datapizza/modules/prompt/chat_prompt_template.php';
 
 echo "╔══════════════════════════════════════════════════════╗\n";
 echo "║     🍕 DataPizza - Prompt Template Demo           ║\n";

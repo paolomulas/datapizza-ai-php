@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../datapizza/embedders/openai_embedder.php';
+require_once __DIR__ . '/../../../datapizza/embedders/openai_embedder.php';
 
 // Carica variabili d'ambiente
 $env = parse_ini_file(__DIR__ . '/../.env');
