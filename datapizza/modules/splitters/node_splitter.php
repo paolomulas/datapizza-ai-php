@@ -49,6 +49,17 @@
  * @return array Array of text chunks
  */
 function splitter_split($text, $max_chunk_size = 1000, $overlap = 200) {
+    $max_chunk_size = (int)$max_chunk_size;
+    $overlap = (int)$overlap;
+
+    if ($max_chunk_size <= 0) {
+        throw new InvalidArgumentException('max_chunk_size must be greater than zero');
+    }
+
+    if ($overlap < 0 || $overlap >= $max_chunk_size) {
+        throw new InvalidArgumentException('overlap must be zero or greater and smaller than max_chunk_size');
+    }
+
     // Handle edge case: text shorter than chunk size
     if (strlen($text) <= $max_chunk_size) {
         return array($text);
@@ -72,17 +83,27 @@ function splitter_split($text, $max_chunk_size = 1000, $overlap = 200) {
         }
         
         // Extract chunk
-        $chunk = substr($text, $start, $end - $start);
-        $chunks[] = trim($chunk);
+        $chunk = trim(substr($text, $start, $end - $start));
+        if ($chunk !== '') {
+            $chunks[] = $chunk;
+        }
+
+        if ($end >= $text_length) {
+            break;
+        }
         
         // Move to next chunk with overlap
         // Overlap ensures context continuity between chunks
-        $start = $end - $overlap;
-        
-        // Ensure we make progress (avoid infinite loop)
-        if ($start <= 0) {
-            $start = $end;
+        $next_start = $end - $overlap;
+
+        // A smart boundary can be closer to the current start than the requested
+        // overlap. In that case, keep the boundary and drop overlap for this step
+        // rather than moving backwards or repeating the same slice forever.
+        if ($next_start <= $start) {
+            $next_start = $end;
         }
+
+        $start = $next_start;
     }
     
     return $chunks;

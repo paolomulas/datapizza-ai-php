@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../datapizza/memory/conversation_memory.php';
+require_once __DIR__ . '/../../../datapizza/memory/conversation_memory.php';
 
 echo "=== Test Conversation Memory (Stile VectorStore) ===\n\n";
 

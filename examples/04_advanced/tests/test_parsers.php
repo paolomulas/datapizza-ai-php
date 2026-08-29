@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../datapizza/modules/parsers/text_parser.php';
-require_once __DIR__ . '/../datapizza/modules/parsers/json_parser.php';
-require_once __DIR__ . '/../datapizza/modules/parsers/csv_parser.php';
+require_once __DIR__ . '/../../../datapizza/modules/parsers/text_parser.php';
+require_once __DIR__ . '/../../../datapizza/modules/parsers/json_parser.php';
+require_once __DIR__ . '/../../../datapizza/modules/parsers/csv_parser.php';
 
 echo "╔══════════════════════════════════════════════════════╗\n";
 echo "║     🍕 DataPizza - Parsers Demo                   ║\n";

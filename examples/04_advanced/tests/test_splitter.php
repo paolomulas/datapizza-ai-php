@@ -3,7 +3,7 @@
  * Test Node Splitter
  */
 
-require_once __DIR__ . '/../datapizza/modules/splitters/node_splitter.php';
+require_once __DIR__ . '/../../../datapizza/modules/splitters/node_splitter.php';
 
 // Carica env
 if (file_exists(__DIR__ . '/../.env')) {
@@ -38,17 +38,16 @@ $doc_length = strlen($document);
 echo " ✓ Documento caricato: $doc_length caratteri\n\n";
 
 echo "🔪 Fase 2: Chunking (max=300, overlap=50)...\n\n";
-$chunks = splitter_split($document, 300, 50, array('source' => 'AI_guide'));
+$chunks = splitter_split($document, 300, 50);
 
 echo " ✓ Chunk generati: " . count($chunks) . "\n";
 echo str_repeat("═", 54) . "\n\n";
 
-foreach ($chunks as $chunk) {
-    $meta = $chunk['metadata'];
-    echo "📄 Chunk {$meta['chunk_id']}/{$meta['chunk_count']}\n";
+foreach ($chunks as $index => $chunk) {
+    echo "📄 Chunk " . ($index + 1) . "/" . count($chunks) . "\n";
     echo str_repeat("─", 54) . "\n";
-    echo "Posizione: {$meta['start_pos']} | Caratteri: {$meta['char_count']}\n";
-    echo "Preview: " . substr($chunk['text'], 0, 80) . "...\n\n";
+    echo "Caratteri: " . strlen($chunk) . "\n";
+    echo "Preview: " . substr($chunk, 0, 80) . "...\n\n";
 }
 
 echo str_repeat("═", 54) . "\n";
