@@ -1,5 +1,5 @@
 # 🍕 Datapizza-AI PHP  
-> *Designed and built on a Raspberry Pi Model B (2011). No GPU, no Docker, no excuses.*
+> *Designed and built on a Raspberry Pi Model B (2011): readable code, modest hardware, and no unnecessary layers.*
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-8.x-blue.svg)]()
@@ -10,32 +10,33 @@
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
 [![Featured in ADMIN Magazine](https://img.shields.io/badge/Featured_in-ADMIN_Magazine_Feb_2026-blue.svg)]()
 
-**Datapizza-AI PHP** is an educational, ultra-minimal port of the original [Datapizza AI](https://github.com/datapizza-labs/datapizza-ai), rewritten in **pure PHP 7.x**.
+**Datapizza-AI PHP** is an educational, ultra-minimal port of the original [Datapizza AI](https://github.com/datapizza-labs/datapizza-ai), written in **plain PHP 8.2+**.
 
 It doesn't try to compete with Python.  
 It exists to remind you that **understanding beats horsepower**.
 
-This project lets you explore how an AI system actually works — embeddings, vector stores, retrieval pipelines, and agents — using the most classic web language of them all.
+This project lets you explore how an AI system actually works — provider calls, tools, embeddings, vector stores, retrieval pipelines, memory, and agents — using a visible PHP orchestration layer.
+
+> **Forthcoming from Apress:** *Building AI Agents with PHP* by Paolo Mulas. This repository is the book’s companion codebase.
 
 ---
 
 ## 🧠 Why?
 
-Most AI frameworks assume a cloud GPU farm.  
-This one assumes you have **an SD card, a coffee, and curiosity** —  
-and a clear view of how APIs really work.
+Many AI frameworks assume abundant compute and several layers of tooling.
+This one assumes **an SD card, a coffee, and curiosity** —
+and gives you a clear view of how API calls and local control flow work.
 
 **Datapizza-AI PHP** is API-first by design.  
 Instead of hiding remote calls behind black boxes, it exposes how every request, embedding, and retrieval happens step by step.
 
-It was built to:
+It is built to:
 - demystify AI logic for web developers and hobbyists,  
 - prove that PHP can still teach serious computer science,  
 - run on low-power hardware (file-based, no DB, no composer),  
 - serve as a DIY / educational sandbox for students, makers, and retro-computing fans.
 
-It's not enterprise-grade cloud software —  
-but it's perfectly capable of powering **local automations, document search, and home-lab AI experiments**.
+It is not enterprise-grade cloud software. It is a transparent codebase for **local automations, document search, and home-lab AI experiments**.
 
 With native integration for **n8n** and **Model Context Protocol (MCP)**,  
 Datapizza-AI PHP acts as a bridge between your local logic and modern AI ecosystems.  
@@ -45,14 +46,9 @@ Every cosine distance, every JSON write, every API call is visible and hackable.
 
 ---
 
-## 🧩 How it differs from everything else out there
+## 🧩 A deliberately small architecture
 
-Most AI frameworks — Python or otherwise — are **monuments to dependency hell**.  
-They need Conda, CUDA, Poetry, virtual environments, and a small prayer.  
-Even the few PHP ones that exist wrap around massive SDKs and require hardware that would melt a Raspberry Pi.
-
-**Datapizza-AI PHP** takes the opposite path:  
-it's not a layer on top of another layer — it's the ground floor, built brick by brick.
+**Datapizza-AI PHP** takes a deliberately direct path. It does not try to replace larger frameworks; it keeps the moving parts small enough to inspect, change, and test.
 
 - No Composer, no Docker, no Conda.  
 - No hidden daemons or background services.  
@@ -61,25 +57,18 @@ it's not a layer on top of another layer — it's the ground floor, built brick 
 - Cosine similarity calculated in vanilla PHP — no math libraries required.  
 - Designed to run where complexity isn't welcome: your local machine.
 
-If Python frameworks are skyscrapers, this one's the **garage workshop** —  
-messy, curious, and transparent. You can open it, break it, fix it, and understand it.
+Think of it as a **garage workshop**: compact, curious, and transparent. You can open it, break it, fix it, and understand it.
 
 ---
 
 ## 🧩 Architecture overview
 ```
 datapizza-ai-php/
-├── agents/           # Core agents (Base, ReactAgent, AgentWithMemory)
-├── clients/          # API clients (OpenAI, Anthropic, DeepSeek, etc.)
-├── embedders/        # Text embedding generators
-├── integrations/     # Tiny HTTP server + endpoints
-├── memory/           # Conversation state manager
-├── modules/          # Parsers, retrieval utilities
-├── pipeline/         # DAG + ingestion + RAG pipeline
-├── tools/            # External tools (Wikipedia, DuckDuckGo, Calculator)
-├── utils/            # Helpers (cosine, locks, logs)
-├── vectorstores/     # Local JSON-based vector store
-└── examples/         # Demos and quick tests
+├── datapizza/        # Agents, clients, embedders, tools, memory, and pipelines
+├── examples/         # Guided examples and offline verification scripts
+├── demos/            # Small runnable demonstrations
+├── data/             # Local example data
+└── README.md         # Project orientation
 ```
 
 Each folder is self-contained, readable, and ready to hack.
@@ -88,9 +77,9 @@ Each folder is self-contained, readable, and ready to hack.
 
 ## ⚙️ Requirements
 
-- PHP ≥ 8.2 (only `curl` and `json`)  
-- 256 MB RAM is plenty  
-- Internet required only for API calls  
+- PHP ≥ 8.2, with `curl` and `json` enabled
+- 256 MB RAM is sufficient for the local PHP side of the examples
+- Internet access and valid credentials are required for provider-backed calls
 
 Works on:
 - Raspberry Pi Model B (2011) — launched at **$35**, sipping around **3 watts** of power  
@@ -106,7 +95,7 @@ Works on:
 git clone https://github.com/paolomulas/datapizza-ai-php.git
 cd datapizza-ai-php
 php -S localhost:8080 -t examples
-php examples/hello_pizza.php
+php examples/01_getting_started/hello_pizza.php
 ```
 Expected output:
 ```
@@ -129,13 +118,14 @@ Expected output:
 
 | Example | Purpose |
 |----------|----------|
-| `hello_pizza.php` | Sanity check — if it runs, PHP is alive |
-| `demo_rag_chatbot.php` | Full RAG + agent pipeline |
-| `test_agent_memory_simple.php` | Conversation memory |
-| `test_agent_with_search.php` | External tools |
-| `test_embedder.php` | Generate and inspect embeddings |
-| `test_dag_pipeline.php` | Visualize the pipeline flow |
-| **`examples/05_sysadmin/`** | **🎯 Featured in ADMIN Magazine** - Complete sysadmin agent with disk monitoring, uptime checks, and log analysis tools |
+| `examples/01_getting_started/hello_pizza.php` | First provider-backed PHP call |
+| `examples/02_agents/agent.php` | A small tool-using agent |
+| `examples/02_agents/agent_with_memory.php` | Conversation memory |
+| `examples/03_rag/rag_chatbot.php` | Retrieval-grounded interaction |
+| `examples/04_advanced/dag_pipeline.php` | Composed retrieval pipeline |
+| `examples/04_advanced/tests/` | Offline checks for tools, retrieval, memory, and operational boundaries |
+| `examples/05_sysadmin/` | Bounded disk, uptime, and literal log inspection tools |
+| `examples/06_loop_engineering/` | Trace, evidence, and delegated-review examples |
 
 ---
 
@@ -171,8 +161,8 @@ This is not about horsepower — it's about **comprehension**.
 
 ## 🔌 For DIY, Makers & Local Hosting
 
-Despite its educational DNA, **Datapizza-AI PHP** can actually *do work*.  
-Run it on your Raspberry Pi or an old laptop and it becomes a **local AI sandbox** — ideal for:
+Despite its educational DNA, **Datapizza-AI PHP** can support useful experiments.
+Run it on a Raspberry Pi or an old laptop as a **local AI sandbox** for:
 
 - indexing and querying personal notes or PDF docs,  
 - powering a voice or chat assistant for your home automation,  
@@ -204,10 +194,11 @@ That's RAG — no frameworks, no cloud, no mystery.
 ---
 
 ## ⚠️ Known limits
-- Remote embeddings only  
-- File I/O uses simple locks  
-- Single-thread execution  
-- Educational purpose only  
+- Provider-backed calls depend on network access, credentials, and provider response shapes
+- The JSON vector store is educational: it uses simple file I/O, memory loading, and linear search
+- File I/O uses simple locks and execution is single-threaded
+- Tool schemas help guide model output; they are not a security boundary by themselves
+- The repository is intended for learning and bounded experimentation, not production deployment without further hardening
 
 ---
 
@@ -225,8 +216,8 @@ That's RAG — no frameworks, no cloud, no mystery.
 **ADMIN Magazine, Issue 92 – February 2026**  
 *"Datapizza-AI-PHP: Edge AI Automation on a 2011 Raspberry Pi"*
 
-This project was featured in ADMIN Magazine with a complete real-world use case: the **Sysadmin Agent**.  
-The agent demonstrates practical system monitoring capabilities using AI reasoning — disk space analysis, uptime checks, and log file inspection — all orchestrated by a ReAct-style agent running on minimal hardware.
+This project was featured in ADMIN Magazine through the **Sysadmin Agent** use case.
+The companion example uses bounded, read-only disk-space, uptime, and literal log-search tools. Provider-backed agent runs require credentials and an operator-selected, non-sensitive log file.
 
 👉 See the complete implementation in `examples/05_sysadmin/`
 
